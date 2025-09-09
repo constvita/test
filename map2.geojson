@@ -10,7 +10,7 @@
                 "height": "0"
             },
             "geometry": {
-                "type": "LineString",
+                "type": "Polygon",
                 "coordinates": [
                     [
                         2.32538605020,
@@ -55,7 +55,7 @@
             "type": "Feature",
             "properties": null,
             "geometry": {
-                "type": "LineString",
+                "type": "Polygon",
                 "coordinates": [
                     [
                         2.32674962939,
@@ -132,7 +132,7 @@
                 "color": "red"
             },
             "geometry": {
-                "type": "LineString",
+                "type": "Polygon",
                 "coordinates": [
                     [
                         2.32727966517,
