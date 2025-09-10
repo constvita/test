@@ -1,15 +1,13 @@
 {
     "type": "FeatureCollection",
-    "name": "KISE Orsay Indoor Sample",
-    "crs": {"type": "name", "properties": {"name": "EPSG:4326"}},
     "features": [
-
         {
             "type": "Feature",
             "properties": {
                 "name": "Salle A",
                 "type": "room",
                 "level": 0,
+                "color": "grey",
                 "capacity": 30
             },
             "geometry": {
