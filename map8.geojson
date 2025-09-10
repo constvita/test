@@ -1,0 +1,112 @@
+{
+    "type": "FeatureCollection",
+    "name": "KISE Orsay Indoor Sample",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "EPSG:4326"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Salle A",
+                "type": "room",
+                "level": 0,
+                "capacity": 30,
+                "height": 0,
+                "base_height": 0
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            2.32645,
+                            48.85990
+                        ],
+                        [
+                            2.32665,
+                            48.85990
+                        ],
+                        [
+                            2.32665,
+                            48.86008
+                        ],
+                        [
+                            2.32645,
+                            48.86008
+                        ],
+                        [
+                            2.32645,
+                            48.85990
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Salle B",
+                "type": "room",
+                "level": 0,
+                "capacity": 24
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            2.32675,
+                            48.85990
+                        ],
+                        [
+                            2.32695,
+                            48.85990
+                        ],
+                        [
+                            2.32695,
+                            48.86008
+                        ],
+                        [
+                            2.32675,
+                            48.86008
+                        ],
+                        [
+                            2.32675,
+                            48.85990
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Corridor",
+                "type": "corridor_centerline",
+                "level": 0,
+                "width_m": 4
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        2.32665,
+                        48.86342
+                    ],
+                    [
+                        2.32670,
+                        48.87123
+                    ],
+                    [
+                        2.32695,
+                        48.87530
+                    ]
+                ]
+            }
+        }
+    ]
+}
