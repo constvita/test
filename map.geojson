@@ -4,11 +4,7 @@
         {
             "type": "Feature",
             "properties": {
-                "name": "Salle A",
-                "type": "room",
-                "level": 0,
-                "color": "grey",
-                "capacity": 30
+                "color": "grey"
             },
             "geometry": {
                 "type": "Polygon",
