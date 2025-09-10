@@ -4,7 +4,9 @@
         {
             "type": "Feature",
             "properties": {
-                "color": "grey"
+                "color": "grey",
+                "height": 0,
+                "base_height": 0
             },
             "geometry": {
                 "type": "Polygon",
