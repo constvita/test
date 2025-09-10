@@ -1,0 +1,49 @@
+{
+    "type": "FeatureCollection",
+    "name": "KISE Orsay Indoor Sample",
+    "crs": {"type": "name", "properties": {"name": "EPSG:4326"}},
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Salle A",
+                "type": "room",
+                "level": 0,
+                "capacity": 30,
+                "height": 0,
+                "base_height": 0
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.32645, 48.85990],
+                    [2.32665, 48.85990],
+                    [2.32665, 48.86008],
+                    [2.32645, 48.86008],
+                    [2.32645, 48.85990]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Salle B",
+                "type": "room",
+                "level": 0,
+                "capacity": 24,
+                "height": 10,
+                "base_height": 0
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.32675, 48.85990],
+                    [2.32695, 48.85990],
+                    [2.32695, 48.86008],
+                    [2.32675, 48.86008],
+                    [2.32675, 48.85990]
+                ]]
+            }
+        }
+    ]
+}
