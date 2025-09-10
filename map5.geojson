@@ -1,0 +1,107 @@
+{
+    "type": "FeatureCollection",
+    "name": "KISE Orsay Indoor Sample",
+    "crs": {"type": "name", "properties": {"name": "EPSG:4326"}},
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Salle A",
+                "type": "room",
+                "level": 0,
+                "capacity": 30,
+                "height": 0,
+                "base_height": 0
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.32645, 48.85990],
+                    [2.32665, 48.85990],
+                    [2.32665, 48.86008],
+                    [2.32645, 48.86008],
+                    [2.32645, 48.85990]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Salle B",
+                "type": "room",
+                "level": 0,
+                "capacity": 24,
+                "height": 0,
+                "base_height": 0
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [2.32675, 48.85990],
+                    [2.32695, 48.85990],
+                    [2.32695, 48.86008],
+                    [2.32675, 48.86008],
+                    [2.32675, 48.85990]
+                ]]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Corridor",
+                "type": "corridor_centerline",
+                "level": 0,
+                "width_m": 4,
+                "height": 10,
+                "base_height": 0
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [2.32665, 48.85999],
+                    [2.32670, 48.85999],
+                    [2.32675, 48.85999]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Escalier",
+                "type": "stairs",
+                "level": 0,
+                "height": 30,
+                "base_height": 0
+            },
+            "geometry": {
+                "type": "MultiLineString",
+                "coordinates": [
+                    [
+                        [2.32655, 48.86008],
+                        [2.32655, 48.86014]
+                    ],
+                    [
+                        [2.32685, 48.86008],
+                        [2.32685, 48.86014]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Info Desk",
+                "type": "poi",
+                "level": 0,
+                "icon": "information",
+                "height": 10,
+                "base_height": 0
+                
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [2.32670, 48.86002]
+            }
+        }
+    ]
+}
