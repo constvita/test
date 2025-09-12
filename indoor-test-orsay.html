@@ -1,0 +1,2401 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Extrude polygons for 3D indoor mapping</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY29uc3R2aXRhIiwiYSI6Ilh0ZDRTaXcifQ.SybfmVv4h_JFuh6Jr8uIhQ';
+        const map = new mapboxgl.Map({
+            container: 'map',
+            // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [2.3266, 48.8599],
+            zoom: 18.65,
+            pitch: 0,
+            bearing: 0,
+            antialias: true
+        });
+
+
+        map.on('load', () => {
+            /////////////////////////////////////////////
+            /// addSource part
+            /////////////////////////////////////////////
+
+
+            map.addSource("FootprintLayer", {
+                type: "geojson",
+                data: // geojson data start
+                {
+                    "type": "FeatureCollection",
+                    "name": "FootprintLayer",
+                    "crs": {
+                        "type": "name",
+                        "properties": {
+                            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                        }
+                    },
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null
+                            },
+                            "geometry": {
+                                "type": "MultiPolygon",
+                                "coordinates": [
+                                    [
+                                        [
+                                            [
+                                                2.325703883724904,
+                                                48.860546096415263
+                                            ],
+                                            [
+                                                2.327909737698092,
+                                                48.859902954566522
+                                            ],
+                                            [
+                                                2.327484157466397,
+                                                48.859255646128773
+                                            ],
+                                            [
+                                                2.325269876161889,
+                                                48.859912657198905
+                                            ],
+                                            [
+                                                2.325322546982644,
+                                                48.859988892102244
+                                            ],
+                                            [
+                                                2.325113970532457,
+                                                48.860052652114042
+                                            ],
+                                            [
+                                                2.325347828976605,
+                                                48.860390856035984
+                                            ],
+                                            [
+                                                2.325556405426792,
+                                                48.860336799005182
+                                            ],
+                                            [
+                                                2.325703883724904,
+                                                48.860546096415263
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+                // geojson data end
+            });
+
+            map.addSource("RoomLayer", {
+                type: "geojson",
+                data: // geojson data start
+                {
+                    "type": "FeatureCollection",
+                    "name": "RoomLayer",
+                    "crs": {
+                        "type": "name",
+                        "properties": {
+                            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                        }
+                    },
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null
+                            },
+                            "geometry": {
+                                "type": "MultiPolygon",
+                                "coordinates": [
+                                    [
+                                        [
+                                            [
+                                                2.325150834688429,
+                                                48.860058663856165
+                                            ],
+                                            [
+                                                2.325362924899757,
+                                                48.860368923322135
+                                            ],
+                                            [
+                                                2.325523694828087,
+                                                48.860320393559292
+                                            ],
+                                            [
+                                                2.32547830096597,
+                                                48.860251954070172
+                                            ],
+                                            [
+                                                2.32552054247655,
+                                                48.860240340086982
+                                            ],
+                                            [
+                                                2.325581802863648,
+                                                48.860327115442395
+                                            ],
+                                            [
+                                                2.325740536844004,
+                                                48.860284393819484
+                                            ],
+                                            [
+                                                2.325831448123662,
+                                                48.860418254782736
+                                            ],
+                                            [
+                                                2.326095754631316,
+                                                48.860346501553472
+                                            ],
+                                            [
+                                                2.326125250290938,
+                                                48.860399172497083
+                                            ],
+                                            [
+                                                2.327861401941272,
+                                                48.859882884039891
+                                            ],
+                                            [
+                                                2.327661131424132,
+                                                48.859571677846553
+                                            ],
+                                            [
+                                                2.327574350860353,
+                                                48.859593310619431
+                                            ],
+                                            [
+                                                2.327423990770349,
+                                                48.859381075620057
+                                            ],
+                                            [
+                                                2.327052191275064,
+                                                48.859483596028717
+                                            ],
+                                            [
+                                                2.327010120079609,
+                                                48.859426137171752
+                                            ],
+                                            [
+                                                2.325931325149575,
+                                                48.859742594020553
+                                            ],
+                                            [
+                                                2.325975066266667,
+                                                48.859805544718895
+                                            ],
+                                            [
+                                                2.325760053149294,
+                                                48.859867323458829
+                                            ],
+                                            [
+                                                2.325717984834695,
+                                                48.859806434314741
+                                            ],
+                                            [
+                                                2.325306470423939,
+                                                48.859925799676674
+                                            ],
+                                            [
+                                                2.32540301181257,
+                                                48.860071635092226
+                                            ],
+                                            [
+                                                2.32536416060598,
+                                                48.860082828971578
+                                            ],
+                                            [
+                                                2.32531273946331,
+                                                48.860010382664733
+                                            ],
+                                            [
+                                                2.325150834688429,
+                                                48.860058663856165
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+                // geojson data end
+            });
+
+            map.addSource("WallLayer", {
+                type: "geojson",
+                data: // geojson data start
+                {
+                    "type": "FeatureCollection",
+                    "name": "WallLayer",
+                    "crs": {
+                        "type": "name",
+                        "properties": {
+                            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                        }
+                    },
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325713664707179,
+                                            48.860245699026585
+                                        ],
+                                        [
+                                            2.325640855924371,
+                                            48.860138686601914
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325594567697751,
+                                            48.860074875497425
+                                        ],
+                                        [
+                                            2.325521730717357,
+                                            48.859966643489642
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325358475416473,
+                                            48.859986472271935
+                                        ],
+                                        [
+                                            2.325388614856637,
+                                            48.859976557881765
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.3254349124791,
+                                            48.859964083213001
+                                        ],
+                                        [
+                                            2.325476741911667,
+                                            48.85995199124303
+                                        ],
+                                        [
+                                            2.325436335636895,
+                                            48.859893111686723
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325511684237303,
+                                            48.859941031300885
+                                        ],
+                                        [
+                                            2.325757822998635,
+                                            48.859869151862434
+                                        ],
+                                        [
+                                            2.325713869648397,
+                                            48.859808012948498
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325758078841645,
+                                            48.859869098224323
+                                        ],
+                                        [
+                                            2.326038412006233,
+                                            48.85978492362365
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326081821980389,
+                                            48.859771660045332
+                                        ],
+                                        [
+                                            2.326213682031103,
+                                            48.859734480912529
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326266426051388,
+                                            48.859718783048166
+                                        ],
+                                        [
+                                            2.326395774482089,
+                                            48.85968077767194
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326446006882361,
+                                            48.859664253586324
+                                        ],
+                                        [
+                                            2.326512564812721,
+                                            48.859646077085841
+                                        ],
+                                        [
+                                            2.326471123082496,
+                                            48.859585764105127
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326646936483448,
+                                            48.85953453932472
+                                        ],
+                                        [
+                                            2.326687122403666,
+                                            48.859594852367159
+                                        ],
+                                        [
+                                            2.326754936144034,
+                                            48.859574197223829
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326798889494271,
+                                            48.859561804133733
+                                        ],
+                                        [
+                                            2.326934516975006,
+                                            48.859522146224812
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326982237755264,
+                                            48.859507274500878
+                                        ],
+                                        [
+                                            2.327047539875617,
+                                            48.859487445528735
+                                        ],
+                                        [
+                                            2.32700358652538,
+                                            48.85942878477352
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327142981436134,
+                                            48.859512231742677
+                                        ],
+                                        [
+                                            2.327283632156895,
+                                            48.85947009517168
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327416594648104,
+                                            48.859545689473876
+                                        ],
+                                        [
+                                            2.327384087048861,
+                                            48.859555124906116
+                                        ],
+                                        [
+                                            2.327338887797195,
+                                            48.859486619321395
+                                        ],
+                                        [
+                                            2.327370283047364,
+                                            48.859476704832225
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327409213157575,
+                                            48.859464311717993
+                                        ],
+                                        [
+                                            2.327434329357711,
+                                            48.85945604964013
+                                        ],
+                                        [
+                                            2.327479538517956,
+                                            48.859527103465147
+                                        ],
+                                        [
+                                            2.32745442231782,
+                                            48.85953453932472
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327457393008043,
+                                            48.85960590867829
+                                        ],
+                                        [
+                                            2.327425526453517,
+                                            48.859617007905172
+                                        ],
+                                        [
+                                            2.327473888636269,
+                                            48.859686563004196
+                                        ],
+                                        [
+                                            2.327573237306265,
+                                            48.859656225153742
+                                        ],
+                                        [
+                                            2.327527259298214,
+                                            48.859585764105127
+                                        ],
+                                        [
+                                            2.327500887288072,
+                                            48.859594026161581
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327604930320251,
+                                            48.859649327861156
+                                        ],
+                                        [
+                                            2.327574946240648,
+                                            48.859604738497275
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327601352088616,
+                                            48.859742742944427
+                                        ],
+                                        [
+                                            2.327660589155733,
+                                            48.859724793602567
+                                        ],
+                                        [
+                                            2.327677084783959,
+                                            48.859748718542832
+                                        ],
+                                        [
+                                            2.327750793479424,
+                                            48.859727045082657
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326835307984469,
+                                            48.859690692120694
+                                        ],
+                                        [
+                                            2.326768750054108,
+                                            48.859711347215956
+                                        ],
+                                        [
+                                            2.32671726184383,
+                                            48.859636988833124
+                                        ],
+                                        [
+                                            2.327086469985828,
+                                            48.859528755878472
+                                        ],
+                                        [
+                                            2.327132934956079,
+                                            48.859602288216664
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326872982284673,
+                                            48.859679125263625
+                                        ],
+                                        [
+                                            2.327017400435454,
+                                            48.859636988833124
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326594192463163,
+                                            48.859701432771288
+                                        ],
+                                        [
+                                            2.326694657263707,
+                                            48.859670863221226
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326002705949961,
+                                            48.859849323033664
+                                        ],
+                                        [
+                                            2.32605419416024,
+                                            48.859922854900908
+                                        ],
+                                        [
+                                            2.326128286950641,
+                                            48.859900547491925
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326163449630831,
+                                            48.859890633084738
+                                        ],
+                                        [
+                                            2.326295309681545,
+                                            48.859850975436359
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326345542081817,
+                                            48.85983610381011
+                                        ],
+                                        [
+                                            2.32647363470251,
+                                            48.85979809852298
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326526378722796,
+                                            48.859783226881021
+                                        ],
+                                        [
+                                            2.326592936653157,
+                                            48.859762571815423
+                                        ],
+                                        [
+                                            2.326541448442878,
+                                            48.859689039712698
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326511309002715,
+                                            48.859724566472451
+                                        ],
+                                        [
+                                            2.326494983472626,
+                                            48.859703085178872
+                                        ],
+                                        [
+                                            2.326049170920212,
+                                            48.859835277608525
+                                        ],
+                                        [
+                                            2.32605796159026,
+                                            48.859850975436359
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326208658791076,
+                                            48.859850975436359
+                                        ],
+                                        [
+                                            2.326191077450981,
+                                            48.859822884583082
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326184798400947,
+                                            48.859998865256877
+                                        ],
+                                        [
+                                            2.326115728850573,
+                                            48.860018694026415
+                                        ],
+                                        [
+                                            2.326164705440838,
+                                            48.860091399447484
+                                        ],
+                                        [
+                                            2.326409588392164,
+                                            48.860019520224981
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326390751242061,
+                                            48.859991429466284
+                                        ],
+                                        [
+                                            2.326356844371878,
+                                            48.860002170052347
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326325449121708,
+                                            48.860017041629249
+                                        ],
+                                        [
+                                            2.326306611971606,
+                                            48.859990603267264
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326518843862755,
+                                            48.859960860093324
+                                        ],
+                                        [
+                                            2.326497495092639,
+                                            48.85993111690172
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326231263371199,
+                                            48.859983167475434
+                                        ],
+                                        [
+                                            2.326359355991892,
+                                            48.859946814699484
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326402053532123,
+                                            48.859933595501694
+                                        ],
+                                        [
+                                            2.326525122912789,
+                                            48.859896416489171
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326587913413129,
+                                            48.859879892474737
+                                        ],
+                                        [
+                                            2.32665823877351,
+                                            48.859859237449029
+                                        ],
+                                        [
+                                            2.326705959553768,
+                                            48.859931943101728
+                                        ],
+                                        [
+                                            2.326459820792436,
+                                            48.860004648648804
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.32643847202232,
+                                            48.859978210280268
+                                        ],
+                                        [
+                                            2.32647363470251,
+                                            48.85996746968906
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326894331054787,
+                                            48.85978901029786
+                                        ],
+                                        [
+                                            2.326834052174461,
+                                            48.859806360544376
+                                        ],
+                                        [
+                                            2.326883028764727,
+                                            48.859879066273876
+                                        ],
+                                        [
+                                            2.32694833088508,
+                                            48.859860889851404
+                                        ],
+                                        [
+                                            2.326938284405025,
+                                            48.859846844429512
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.32697972613525,
+                                            48.859834451406925
+                                        ],
+                                        [
+                                            2.326989772615305,
+                                            48.859849323033664
+                                        ],
+                                        [
+                                            2.327136086879894,
+                                            48.859805519033721
+                                        ],
+                                        [
+                                            2.327126605463666,
+                                            48.859792275577291
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327167740223303,
+                                            48.859779511952929
+                                        ],
+                                        [
+                                            2.327177221639532,
+                                            48.859793139281088
+                                        ],
+                                        [
+                                            2.327252236906725,
+                                            48.859771660045332
+                                        ],
+                                        [
+                                            2.327200748696447,
+                                            48.859698954159825
+                                        ],
+                                        [
+                                            2.327127911716052,
+                                            48.859720435455174
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.32694456345506,
+                                            48.859775791058389
+                                        ],
+                                        [
+                                            2.327086469985828,
+                                            48.859733654709267
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327013633005434,
+                                            48.859755962192637
+                                        ],
+                                        [
+                                            2.327061353785692,
+                                            48.859827841793624
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325957496789716,
+                                            48.859860063650231
+                                        ],
+                                        [
+                                            2.325789218248805,
+                                            48.859909635696795
+                                        ],
+                                        [
+                                            2.325849497129131,
+                                            48.860000517654662
+                                        ],
+                                        [
+                                            2.325749032328588,
+                                            48.860029434606638
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325792985678826,
+                                            48.860092225644841
+                                        ],
+                                        [
+                                            2.325890938859356,
+                                            48.860062482531298
+                                        ],
+                                        [
+                                            2.325954985169703,
+                                            48.860152538015285
+                                        ],
+                                        [
+                                            2.326127031140634,
+                                            48.860103792406449
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326031589580118,
+                                            48.860088094657911
+                                        ],
+                                        [
+                                            2.326101914940498,
+                                            48.860067439718122
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325916055059492,
+                                            48.859916245299296
+                                        ],
+                                        [
+                                            2.325985124609866,
+                                            48.859897242689755
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325744758054518,
+                                            48.860284837676403
+                                        ],
+                                        [
+                                            2.325771085128465,
+                                            48.860276633221609
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325812654192592,
+                                            48.860263870733711
+                                        ],
+                                        [
+                                            2.325890249778962,
+                                            48.860241992175467
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.325838981266539,
+                                            48.860259312701537
+                                        ],
+                                        [
+                                            2.32590133486273,
+                                            48.86035594289487
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.32588609287255,
+                                            48.860324036719589
+                                        ],
+                                        [
+                                            2.326039898409819,
+                                            48.860279368040025
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326084238744888,
+                                            48.860344092032136
+                                        ],
+                                        [
+                                            2.325992786803809,
+                                            48.860211909142258
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.32594844646874,
+                                            48.860224671643408
+                                        ],
+                                        [
+                                            2.326068996754708,
+                                            48.860189118953542
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326121650902603,
+                                            48.860174533227337
+                                        ],
+                                        [
+                                            2.326445889602793,
+                                            48.86007790268377
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326499929386158,
+                                            48.860061493705018
+                                        ],
+                                        [
+                                            2.326746572499978,
+                                            48.859988564845452
+                                        ],
+                                        [
+                                            2.326871279692359,
+                                            48.86017635644334
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327048641032634,
+                                            48.860123483152094
+                                        ],
+                                        [
+                                            2.326925319475723,
+                                            48.859942984254275
+                                        ],
+                                        [
+                                            2.326973816717205,
+                                            48.859927486843823
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327033399042454,
+                                            48.859911077815752
+                                        ],
+                                        [
+                                            2.327079125012993,
+                                            48.859897403621588
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.326987673071914,
+                                            48.86003505700571
+                                        ],
+                                        [
+                                            2.327036170313395,
+                                            48.860020471234591
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327091610155566,
+                                            48.860005248189779
+                                        ],
+                                        [
+                                            2.327143377257844,
+                                            48.859990246610785
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327203832205374,
+                                            48.860076991073981
+                                        ],
+                                        [
+                                            2.327101295180528,
+                                            48.859928398456333
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327262934613107,
+                                            48.860061402709064
+                                        ],
+                                        [
+                                            2.32716032482109,
+                                            48.859911792333882
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327204080348016,
+                                            48.859973217785935
+                                        ],
+                                        [
+                                            2.327245987049861,
+                                            48.859961459784451
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327291591401869,
+                                            48.85994909360749
+                                        ],
+                                        [
+                                            2.327334081939639,
+                                            48.85993660296819
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327392660506317,
+                                            48.860023087899485
+                                        ],
+                                        [
+                                            2.327292512875512,
+                                            48.859875524903153
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327449089683724,
+                                            48.860005885459223
+                                        ],
+                                        [
+                                            2.327346552658877,
+                                            48.85985729263048
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327391119818749,
+                                            48.859919090411353
+                                        ],
+                                        [
+                                            2.327442886921028,
+                                            48.85990307518442
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.3275035900112,
+                                            48.859885640880933
+                                        ],
+                                        [
+                                            2.327553508288397,
+                                            48.859870233816984
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.32761357661529,
+                                            48.859956643057529
+                                        ],
+                                        [
+                                            2.327489634463213,
+                                            48.859777576445239
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327438647975969,
+                                            48.85979138876872
+                                        ],
+                                        [
+                                            2.327549618565851,
+                                            48.859758831143004
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327322996855872,
+                                            48.859826297751695
+                                        ],
+                                        [
+                                            2.327378422274707,
+                                            48.859809888690457
+                                        ]
+                                    ]
+                                ]
+                            }
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {
+                                "id": null,
+                                "color": null,
+                                "width": null
+                            },
+                            "geometry": {
+                                "type": "MultiLineString",
+                                "coordinates": [
+                                    [
+                                        [
+                                            2.327138707338242,
+                                            48.859880994583655
+                                        ],
+                                        [
+                                            2.327271728343448,
+                                            48.859840883579402
+                                        ]
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+                // geojson data end
+            });
+
+
+            /////////////////////////////////////////////
+            /// addLayer part
+            /////////////////////////////////////////////
+
+
+            map.addLayer({
+                id: "0",
+                type: "fill",
+                source: "FootprintLayer",
+                filter: ["==", "$type", "Polygon"],
+                paint: {
+                    "fill-color": "#7c768c",
+                    "fill-outline-color": "#333",
+                    "fill-opacity": 1
+                }
+            });
+
+            map.addLayer({
+                id: "1",
+                type: "fill",
+                source: "RoomLayer",
+                filter: ["==", "$type", "Polygon"],
+                paint: {
+                    "fill-color": "#f9f6dd",
+                    "fill-outline-color": "#333",
+                    "fill-opacity": 1
+                }
+            });
+
+
+            map.addLayer({
+                id: "",
+                type: "line",
+                source: "WallLayer",
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                paint: {
+                    "line-color": "#444444",
+                    "line-width": 6
+                }
+            });
+
+
+
+
+
+            // 복도 (LineString)
+            map.addLayer({
+                id: "corridor-line",
+                type: "line",
+                source: "indoor",
+                filter: ["==", "$type", "LineString"],
+                paint: {
+                    "line-color": "#ff6600",
+                    "line-width": 16
+                }
+            });
+
+            // 방 (Polygon)
+            map.addLayer({
+                id: "rooms-fill",
+                type: "fill",
+                source: "indoor",
+                filter: ["==", "$type", "Polygon"],
+                paint: {
+                    "fill-color": "#d1e6fa",
+                    "fill-outline-color": "#333",
+                    "fill-opacity": 0.7
+                }
+            });
+
+
+
+            // // 계단 (MultiLineString)
+            // map.addLayer({
+            //     id: "stairs-line",
+            //     type: "line",
+            //     source: "indoor",
+            //     filter: ["==", "$type", "LineString"], // MultiLineString도 line으로 처리됨
+            //     paint: {
+            //         "line-color": "#666",
+            //         "line-width": 8,
+            //         "line-dasharray": [2, 2]
+            //     }
+            // });
+
+            // POI (Point)
+            map.addLayer({
+                id: "poi-symbol",
+                type: "symbol",
+                source: "indoor",
+                filter: ["==", "$type", "Point"],
+                layout: {
+                    "text-field": ["get", "name"],
+                    "text-size": 12,
+                    "text-offset": [0, 1.0],
+                    "icon-image": "information-15",
+                    "icon-allow-overlap": true
+                }
+            });
+        });
+
+
+        /*
+            map.on('load', () => {
+                map.addSource('route', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'Feature',
+                        'properties': {
+                            "height": 30,
+                            "base_height": 0
+                        },
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': [
+                                [
+                                    2.32665,
+                                    48.85342
+                                ],
+                                [
+                                    2.32670,
+                                    48.86123
+                                ],
+                                [
+                                    2.34695,
+                                    48.87530
+                                ]
+                            ]
+                        }
+                    }
+                });
+                map.addLayer({
+                    'id': 'route',
+                    'type': 'line',
+                    'source': 'route',
+                    'layout': {
+                        'line-join': 'round',
+                        'line-cap': 'round'
+                    },
+                    'paint': {
+                        'line-color': '#888',
+                        'line-width': 4
+                    }
+                });
+    
+                map.addSource('floorplan', {
+                    'type': 'geojson',
+                    'data': {
+                        "type": "FeatureCollection",
+                        "features": [
+                            {
+                                "type": "Feature",
+                                "properties": {
+                                    "color": "grey",
+                                    "height": 0,
+                                    "base_height": 0
+                                },
+                                "geometry": {
+                                    "coordinates": [
+                                        [
+                                            [
+                                                2.325386050200393,
+                                                48.86037665057316
+                                            ],
+                                            [
+                                                2.325179272917353,
+                                                48.860079617364846
+                                            ],
+                                            [
+                                                2.3253616714676184,
+                                                48.860023833690235
+                                            ],
+                                            [
+                                                2.325297251196588,
+                                                48.85992494862421
+                                            ],
+                                            [
+                                                2.327453583658013,
+                                                48.85928951321566
+                                            ],
+                                            [
+                                                2.3278798526583557,
+                                                48.85990897682666
+                                            ],
+                                            [
+                                                2.3257265610477305,
+                                                48.86054657289367
+                                            ],
+                                            [
+                                                2.3255718360215383,
+                                                48.86032319251561
+                                            ],
+                                            [
+                                                2.325386050200393,
+                                                48.86037665057316
+                                            ]
+                                        ]
+                                    ],
+                                    "type": "Polygon"
+                                },
+                                "id": 0
+                            },
+                            {
+                                "type": "Feature",
+                                "properties": {
+                                    "height": 0,
+                                    "color": "blue",
+                                    "base_height": 20
+                                },
+                                "geometry": {
+                                    "coordinates": [
+                                        [
+                                            [
+                                                2.326434882589666,
+                                                48.860162663149595
+                                            ],
+                                            [
+                                                2.3259143639473336,
+                                                48.86033109867472
+                                            ],
+                                            [
+                                                2.3258969302312096,
+                                                48.860312528376454
+                                            ],
+                                            [
+                                                2.326432750405388,
+                                                48.86013905198675
+                                            ],
+                                            [
+                                                2.326434882589666,
+                                                48.860162663149595
+                                            ]
+                                        ]
+                                    ],
+                                    "type": "Polygon"
+                                },
+                                "id": 1
+                            },
+                            {
+                                "type": "Feature",
+                                "properties": {
+                                    "color": "red",
+                                    "height": 30,
+                                    "base_height": 0
+                                },
+                                "geometry": {
+                                    "coordinates": [
+                                        [
+                                            [
+                                                2.327279665174359,
+                                                48.85992083529723
+                                            ],
+                                            [
+                                                2.3268068943921207,
+                                                48.860069634438304
+                                            ],
+                                            [
+                                                2.3266732433679067,
+                                                48.85993565277798
+                                            ],
+                                            [
+                                                2.326785106712066,
+                                                48.85990314306915
+                                            ],
+                                            [
+                                                2.326800963690573,
+                                                48.85992917971393
+                                            ],
+                                            [
+                                                2.3267358045143,
+                                                48.85995542116473
+                                            ],
+                                            [
+                                                2.3268134678666854,
+                                                48.86004272113851
+                                            ],
+                                            [
+                                                2.327240067527839,
+                                                48.859906092986364
+                                            ],
+                                            [
+                                                2.327181681151899,
+                                                48.859832848461764
+                                            ],
+                                            [
+                                                2.326960330770646,
+                                                48.85989925598247
+                                            ],
+                                            [
+                                                2.32694605053112,
+                                                48.859865753118754
+                                            ],
+                                            [
+                                                2.32718876527332,
+                                                48.859786663155774
+                                            ],
+                                            [
+                                                2.327279665174359,
+                                                48.85992083529723
+                                            ]
+                                        ]
+                                    ],
+                                    "type": "Polygon"
+                                },
+                                "id": 2
+                            },
+                            {
+                                "type": "Feature",
+                                "properties": {
+                                    "id": null,
+                                    "height": 10
+                                },
+                                "geometry": {
+                                    "type": "MultiPolygon",
+                                    "coordinates": [
+                                        [
+                                            [
+                                                [
+                                                    2.325293,
+                                                    48.8599246
+                                                ],
+                                                [
+                                                    2.3274532,
+                                                    48.8592925
+                                                ],
+                                                [
+                                                    2.327477,
+                                                    48.8593275
+                                                ],
+                                                [
+                                                    2.3253138,
+                                                    48.8599552
+                                                ],
+                                                [
+                                                    2.325293,
+                                                    48.8599246
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "Feature",
+                                "properties": {
+                                    "id": null,
+                                    "height": 10
+                                },
+                                "geometry": {
+                                    "type": "MultiPolygon",
+                                    "coordinates": [
+                                        [
+                                            [
+                                                [
+                                                    2.3257008,
+                                                    48.8605077
+                                                ],
+                                                [
+                                                    2.327861,
+                                                    48.8598756
+                                                ],
+                                                [
+                                                    2.3278848,
+                                                    48.8599106
+                                                ],
+                                                [
+                                                    2.3257216,
+                                                    48.8605384
+                                                ],
+                                                [
+                                                    2.3257008,
+                                                    48.8605077
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                });
+                map.addLayer({
+                    'id': 'room-extrusion',
+                    'type': 'fill-extrusion',
+                    'source': 'floorplan',
+                    'paint': {
+                        // Get the `fill-extrusion-color` from the source `color` property.
+                        'fill-extrusion-color': ['get', 'color'],
+    
+                        // Get `fill-extrusion-height` from the source `height` property.
+                        'fill-extrusion-height': ['get', 'height'],
+    
+                        // Get `fill-extrusion-base` from the source `base_height` property.
+                        'fill-extrusion-base': ['get', 'base_height'],
+    
+                        // Make extrusions slightly opaque to see through indoor walls.
+                        'fill-extrusion-opacity': 0.5
+                    }
+                });
+            });
+        */
+    </script>
+
+</body>
+
+</html>
